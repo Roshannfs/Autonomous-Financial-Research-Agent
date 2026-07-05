@@ -12,8 +12,8 @@ sys.path.insert(0, project_root)
 # 2. STANDARD IMPORTS
 # ---------------------------------------------------------
 from typing import TypedDict, Annotated, Sequence
-from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage, AIMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_core.messages import BaseMessage, HumanMessage, SystemMessage
+from langchain_groq import ChatGroq
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
 from tools.tool_registry import get_all_tools
@@ -27,10 +27,10 @@ class ResearchState(TypedDict):
     messages: Annotated[Sequence[BaseMessage], operator.add]
     research_query: str
 
-# 4. Initialize Gemini
-llm = ChatGoogleGenerativeAI(
-    model="gemini-3.5-flash", 
-    google_api_key=os.getenv("GEMINI_API_KEY"),
+# 4. Initialize Groq
+llm = ChatGroq(
+    model="llama-3.3-70b-versatile", 
+    api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.0  
 )
 
@@ -63,7 +63,6 @@ def synthesizer(state: ResearchState):
     """NODE 3: Flattens tool outputs into clean text and writes the final report."""
     messages = state["messages"]
     
-    # Extract all raw tool findings into a clean, structured text profile
     context_text = ""
     for msg in messages:
         if msg.type == "human":
@@ -80,7 +79,6 @@ def synthesizer(state: ResearchState):
     
     user_prompt = f"GATHERED OBSERVATIONS:\n{context_text}\n\nPlease generate the complete report now based strictly on these facts:"
     
-    # Invoke the clean LLM with fresh, non-confusing inputs
     response = llm.invoke([
         SystemMessage(content=system_prompt),
         HumanMessage(content=user_prompt)
