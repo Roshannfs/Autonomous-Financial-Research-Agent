@@ -1,6 +1,6 @@
 import json
 from typing import List, Dict, Any
-from langchain_google_genai import ChatGoogleGenerativeAI  # <-- NEW NATIVE INTEGRATION
+from langchain_groq import ChatGroq  # <-- NEW NATIVE INTEGRATION
 import os
 from dotenv import load_dotenv
 
@@ -8,11 +8,11 @@ load_dotenv()
 
 class EvaluationFramework:
     def __init__(self):
-        """Initializes the Evaluation Framework using Gemini for grading consistency."""
-        self.judge_llm = ChatGoogleGenerativeAI(
-            model="gemini-3.5-flash",
-            google_api_key=os.getenv("GEMINI_API_KEY"),
-            temperature=0.0  
+        # Swap out Google Gemini for Groq in the evaluator
+        self.judge_llm = ChatGroq(
+            model="llama-3.3-70b-versatile", 
+            api_key=os.getenv("GROQ_API_KEY"),
+            temperature=0.0
         )
         
     def evaluate_hallucination_rate(self, generated_claims: List[str], retrieved_facts: List[str]) -> float:

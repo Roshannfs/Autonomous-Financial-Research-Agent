@@ -72,21 +72,13 @@ def run_challenge(challenge_number: int, query: str, simulate_degradation: bool 
     print(dashboard)
 
 if __name__ == "__main__":
-    # ... your automated challenges run first ...
+    c1_query = "Create a comprehensive profile of Microsoft Corporation including business overview and financial summary."
+    run_challenge(1, c1_query)
     
-    print("\n" + "="*60)
-    print("💬 INTERACTIVE AD-HOC RESEARCH MODE ENTERED")
-    print("Type 'exit' or 'quit' to close the program.")
-    print("="*60)
+    c6_query = "What's happening with the banks?"
+    run_challenge(6, c6_query)
     
-    while True:
-        user_query = input("\nEnter your financial research query: ")
-        if user_query.lower() in ["exit", "quit"]:
-            print("Shutting down ARA-1 Analyst mode. Goodbye!")
-            break
-            
-        if user_query.strip() == "":
-            continue
-            
-        # Dynamically run your exact framework against the manual prompt!
-        run_challenge(challenge_number=99, query=user_query)
+    c8_query = "Produce a complete investment research report on NVIDIA Corporation. Note: The financial data API and SEC filing search tools are currently experiencing intermittent failures."
+    run_challenge(8, c8_query, simulate_degradation=True)
+
+    
