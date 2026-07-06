@@ -1,0 +1,30 @@
+{
+  "intern_identifier": "MAM-CET-2026-ROSHAN",
+  "intern_name": "Roshan S",
+  "intern_email": "roshan.btech27@gmail.com",
+  "project_code": "1A",
+  "project_title": "Autonomous Financial Research Agent with Multi-Source Synthesis",
+  "submission_type": "github",
+  "submission_date": "2026-07-06T12:00:00Z",
+  "tech_stack": [
+    "Python",
+    "LangGraph",
+    "ChatGroq (Llama-3.3-70b-versatile)",
+    "ChromaDB",
+    "SEC EDGAR API",
+    "Yahoo Finance (yfinance)",
+    "Streamlit Cloud"
+  ],
+  "github_repo_url": "https://github.com/Roshannfs/Autonomous-Financial-Research-Agent.git",
+  "duration_days": 15,
+  "assessment_criteria": {
+    "architecture_design": true,
+    "tool_orchestration": true,
+    "memory_system": true,
+    "error_handling": true,
+    "evaluation_framework": true,
+    "research_output_quality": true,
+    "code_quality": true,
+    "documentation": true
+  }
+}
