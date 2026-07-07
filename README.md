@@ -161,9 +161,39 @@ To spin up the web interface:
 streamlit run evaluation/dashboard.py
 ```
 
+
+---
+
+## 📸 Application Screenshots
+
+Here are the visual captures of the ARA-1 Streamlit dashboard interface in action, demonstrating the initial state, execution flow, and generated report outputs.
+
+### Streamlit Dashboard States
+* **Initial Dashboard State**:
+  ![Initial Dashboard](screenshots/initial_dashboard_1783400832562.png)
+
+* **Agent Execution In Progress**:
+  ![Agent Running](screenshots/agent_running_1783400874965.png)
+
+### Generated Research Report (NVIDIA)
+Below is the compilation of the generated research report sections as rendered on the dashboard:
+1. **Top Section & RQB Telemetry**:
+   ![Report Top & Metrics](screenshots/nvidia_report_top_1783400890326.png)
+2. **Body & Sentiment Analysis**:
+   ![Report Middle](screenshots/nvidia_report_mid_1783400899142.png)
+3. **Financial Valuation & Competitors**:
+   ![Report Bottom](screenshots/nvidia_report_bottom_1783400916785.png)
+4. **Citations & Verification Conclusion**:
+   ![Report End](screenshots/nvidia_report_end_1783400925016.png)
+
+### Demo Interaction
+* **Dashboard Walkthrough**:
+  ![Streamlit App Demo](screenshots/streamlit_app_demo_1783400808889.webp)
+
 ---
 
 ## 📄 Example Outputs
+
 
 ### Example: Compiling an Investment Research Report
 When given the query: *"Produce a complete investment research report on NVIDIA Corporation."*, the agent yields a structured report formatted via the `report_generator` tool:
