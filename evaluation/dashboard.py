@@ -72,6 +72,29 @@ if user_query:
             
             st.success("✅ Research Complete")
             
+            # Record successful episode in episodic memory
+            try:
+                from memory.memory_manager import UnifiedMemoryManager
+                mem_mgr = UnifiedMemoryManager()
+                tool_calls = []
+                if "messages" in event:
+                    for msg in event["messages"]:
+                        if hasattr(msg, 'tool_calls') and msg.tool_calls:
+                            for tc in msg.tool_calls:
+                                tool_calls.append({
+                                    "name": tc["name"],
+                                    "args": tc["args"]
+                                })
+                mem_mgr.record_episode(
+                    query=user_query,
+                    grounded_query=actual_query,
+                    tool_calls=tool_calls,
+                    final_report=final_report,
+                    success=True
+                )
+            except Exception as mem_err:
+                update_logs(f"Failed to record episode: {str(mem_err)}")
+
             # Metric Telemetry Cards
             col1, col2, col3 = st.columns(3)
             with col1:
@@ -87,3 +110,16 @@ if user_query:
             
         except Exception as e:
             st.error(f"Execution failed: {str(e)}")
+            # Record failed episode in episodic memory
+            try:
+                from memory.memory_manager import UnifiedMemoryManager
+                mem_mgr = UnifiedMemoryManager()
+                mem_mgr.record_episode(
+                    query=user_query,
+                    grounded_query=actual_query,
+                    tool_calls=[],
+                    final_report=f"Execution failed: {str(e)}",
+                    success=False
+                )
+            except Exception:
+                pass

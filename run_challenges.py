@@ -49,9 +49,47 @@ def run_challenge(challenge_number: int, query: str, simulate_degradation: bool 
         else:
             final_report = str(raw_content)
             
+        # Record successful episode in episodic memory
+        try:
+            from memory.memory_manager import UnifiedMemoryManager
+            mem_mgr = UnifiedMemoryManager()
+            tool_calls = []
+            if "messages" in event:
+                for msg in event["messages"]:
+                    if hasattr(msg, 'tool_calls') and msg.tool_calls:
+                        for tc in msg.tool_calls:
+                            tool_calls.append({
+                                "name": tc["name"],
+                                "args": tc["args"]
+                            })
+            mem_mgr.record_episode(
+                query=query,
+                grounded_query=actual_query,
+                tool_calls=tool_calls,
+                final_report=final_report,
+                success=True
+            )
+            print("💾 Episode successfully recorded in Episodic Memory.")
+        except Exception as mem_err:
+            print(f"⚠️ Failed to save episode: {str(mem_err)}")
+            
     except Exception as e:
         print(f"\n⚠️ Execution stopped: {str(e)}")
-        final_report = "Error generating report."
+        final_report = f"Error generating report: {str(e)}"
+        
+        # Record failed episode in episodic memory
+        try:
+            from memory.memory_manager import UnifiedMemoryManager
+            mem_mgr = UnifiedMemoryManager()
+            mem_mgr.record_episode(
+                query=query,
+                grounded_query=actual_query,
+                tool_calls=[],
+                final_report=final_report,
+                success=False
+            )
+        except Exception:
+            pass
         
     print(f"\n📄 ARA-1 FINAL REPORT:\n{'-'*60}\n{final_report}\n{'-'*60}")
     

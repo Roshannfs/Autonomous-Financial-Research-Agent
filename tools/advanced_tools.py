@@ -59,14 +59,14 @@ def peer_comparison(ticker: str, num_peers: int = 3, metrics: list = ["marketCap
         return f"Error retrieving peer metrics: {str(e)}"
 
 # ---------------------------------------------------------
-# 3. Calculation Engine
+# 3. Calculator Tool (New Target Tool)
 # ---------------------------------------------------------
 class CalculationInput(BaseModel):
     calculation_type: str = Field(description="Type: 'growth_rate', 'pe_ratio', or 'dcf'")
     inputs: dict = Field(description="Dictionary of numerical inputs for the calculation")
 
-@tool("calculation_engine", args_schema=CalculationInput)
-def calculation_engine(calculation_type: str, inputs: dict) -> str:
+@tool("calculator", args_schema=CalculationInput)
+def calculator(calculation_type: str, inputs: dict) -> str:
     """Performs financial calculations including DCF, ratios, and growth rates."""
     try:
         if calculation_type == "growth_rate":
@@ -84,6 +84,9 @@ def calculation_engine(calculation_type: str, inputs: dict) -> str:
         return f"Calculation type {calculation_type} not supported."
     except Exception as e:
         return f"Calculation Error: {str(e)}"
+
+# Legacy alias
+calculation_engine = calculator
 
 # ---------------------------------------------------------
 # 4. Fact Checker
