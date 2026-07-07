@@ -34,7 +34,7 @@ llm = ChatGroq(
     temperature=0.0  
 )
 
-tools = [t for t in get_all_tools() if t.name != "report_generator"]
+tools = get_all_tools()
 llm_with_tools = llm.bind_tools(tools)
 
 # ---------------------------------------------------------
